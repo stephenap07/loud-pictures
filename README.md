@@ -9,5 +9,5 @@ Music informatics project to convert an image into a wav file visible with the f
 mvn package
 
 # to run
-mvn exec:java
+appletviewer test.html
 ```

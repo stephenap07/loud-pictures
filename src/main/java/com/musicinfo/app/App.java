@@ -1,9 +1,14 @@
-package com.musicinfo.app;
+import java.applet.*; 
+import java.awt.*; 
 import org.jtransforms.fft.DoubleFFT_1D;
 
-public class App 
+public class App extends Applet
 {
-    public static void main( String[] args )
+	public void init() {}
+
+	public void stop() {} 
+
+    public void test()
     {
 		double[] input = new double[]{
 			0.0176,
@@ -24,4 +29,8 @@ public class App
 		}
 
     }
+
+	public void paint(Graphics g) {
+		g.drawString("Hello World",10,20);
+	}
 }

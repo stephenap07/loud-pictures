@@ -151,12 +151,12 @@ public class FFT extends JPanel
 		int channels = 1;
 		AudioFormat format;
 
-		System.out.println("Writing to out10.wav");
+		System.out.println("Writing to picture.wav");
 		format = new AudioFormat((float)sampleRate, bits, channels, signed, bigEndian);
 		ByteArrayInputStream bais = new ByteArrayInputStream(byteBuffer);
 		AudioInputStream audioInputStream;
 		audioInputStream = new AudioInputStream(bais, format, sampleBuffer.length);
-		AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, new FileOutputStream("out10.wav"));
+		AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, new FileOutputStream("picture.wav"));
 		audioInputStream.close();
 	}
 

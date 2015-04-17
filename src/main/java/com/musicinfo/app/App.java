@@ -18,16 +18,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class App
 {
 	public static void main(String[] a) {
-		new App();
 		JPanel panel = new FFT();
-		JButton okButton = new JButton("OK");
-		panel.add(okButton);
-		JButton cancelButton = new JButton("Cancel");
-		panel.add(cancelButton);
-		JFrame frame = new JFrame("Oval Sample");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFrame frame = new JFrame("Loud Pictures");
 		frame.add(panel);
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		frame.setVisible(true);
+
 	}
 }

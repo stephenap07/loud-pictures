@@ -51,14 +51,14 @@ public class FFT extends JPanel
 	File out;
 	AudioFormat format;
 
-	private static double[] getPixels(BufferedImage image) {
+	private static int[] getPixels(BufferedImage image) {
 
 		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		final int width = image.getWidth();
 		final int height = image.getHeight();
 		final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
-		double[] result = new double[height*width];
+		int[] result = new int[height*width];
 		if (hasAlphaChannel) {
 			final int pixelLength = 4;
 			for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
@@ -115,8 +115,8 @@ public class FFT extends JPanel
 	private void writeWav() throws IOException
 	{
 		BufferedImage flippedImage = createFlipped(img);
-		double[] pixelImg = getPixels(img);
-		double[] pixelFlippedImg = getPixels(flippedImage);
+		int[] pixelImg = getPixels(img);
+		int[] pixelFlippedImg = getPixels(flippedImage);
 
 		int width = img.getWidth();
 		int height = img.getHeight();
@@ -128,10 +128,10 @@ public class FFT extends JPanel
 			double[] fft = new double[height * 2];
 			// Insert column of pixels of the flipped image and the regular image
 			for (int y = 0; y < height; ++y) {
-				fft[y] = pixelFlippedImg[y * width];
+				fft[y] = (double)pixelFlippedImg[y * width];
 			}
 			for (int y = 0; y < height; ++y) {
-				fft[y + height] = pixelImg[y * width];
+				fft[y + height] = (double)pixelImg[y * width];
 			}
 			DoubleFFT_1D fftDo = new DoubleFFT_1D(img.getHeight());
 			fftDo.realInverse(fft, true);
@@ -145,7 +145,7 @@ public class FFT extends JPanel
 			System.arraycopy(bytes, 0, byteBuffer, i, bytes.length);
 		}
 
-		boolean bigEndian = false;
+		boolean bigEndian = true;
 		boolean signed = true;
 		int bits = 16;
 		int channels = 1;
@@ -196,7 +196,7 @@ public class FFT extends JPanel
                 System.setOut(new PrintStream(new StreamCapturer("STDOUT", capturePane, ps)));
 
 				// Same properties of a CD
-				sampleRate = 44100;
+				sampleRate = 16000;
 				bitsSample = 16;
 
 				try {

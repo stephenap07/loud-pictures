@@ -1,36 +1,33 @@
-import java.applet.*; 
-import java.awt.*; 
-import org.jtransforms.fft.DoubleFFT_1D;
+package com.musicinfo.app;
 
-public class App extends Applet
+import com.musicinfo.GUI.FFT;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+public class App
 {
-	public void init() {}
-
-	public void stop() {} 
-
-    public void test()
-    {
-		double[] input = new double[]{
-			0.0176,
-				-0.0620,
-				0.2467,
-				0.4599,
-				-0.0582,
-				0.4694,
-				0.0001,
-				-0.2873};
-		DoubleFFT_1D fftDo = new DoubleFFT_1D(input.length);
-		double[] fft = new double[input.length * 2];
-		System.arraycopy(input, 0, fft, 0, input.length);
-		fftDo.realForwardFull(fft);
-
-		for(double d: fft) {
-			System.out.println(d);
-		}
-
-    }
-
-	public void paint(Graphics g) {
-		g.drawString("Hello World",10,20);
+	public static void main(String[] a) {
+		new App();
+		JPanel panel = new FFT();
+		JButton okButton = new JButton("OK");
+		panel.add(okButton);
+		JButton cancelButton = new JButton("Cancel");
+		panel.add(cancelButton);
+		JFrame frame = new JFrame("Oval Sample");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(panel);
+		frame.setSize(800, 600);
+		frame.setVisible(true);
 	}
 }

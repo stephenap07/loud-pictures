@@ -114,6 +114,7 @@ public class FFT extends JPanel
 
 	private void writeWav() throws IOException
 	{
+		// Make image symmetric
 		BufferedImage flippedImage = createFlipped(img);
 		int[] pixelImg = getPixels(img);
 		int[] pixelFlippedImg = getPixels(flippedImage);
@@ -133,6 +134,7 @@ public class FFT extends JPanel
 			for (int y = 0; y < height; ++y) {
 				fft[y + height] = (double)pixelImg[y * width];
 			}
+
 			DoubleFFT_1D fftDo = new DoubleFFT_1D(img.getHeight());
 			fftDo.realInverse(fft, true);
 			System.arraycopy(fft, 0, sampleBuffer, x * fft.length, fft.length);
@@ -145,10 +147,10 @@ public class FFT extends JPanel
 			System.arraycopy(bytes, 0, byteBuffer, i, bytes.length);
 		}
 
-		boolean bigEndian = true;
-		boolean signed = true;
-		int bits = 16;
-		int channels = 1;
+		final boolean bigEndian = true;
+		final boolean signed = true;
+		final int bits = 16;
+		final int channels = 1;
 		AudioFormat format;
 
 		System.out.println("Writing to picture.wav");

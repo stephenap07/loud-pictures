@@ -36,7 +36,7 @@ import java.awt.event.*;
 import javax.swing.JFileChooser;
 import java.io.*;
 
-import com.musicinfo.GUI.FFT;
+import com.musicinfo.util.ImageWav;
 import java.io.IOException;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -47,7 +47,7 @@ public class MainFrame extends JFrame implements ActionListener {
    public MainFrame() {
       setLayout(new BorderLayout());
       chooser = new JFileChooser();
-      openButton = new JButton("Open a File");
+      openButton = new JButton("Open an image file");
       openButton.addActionListener(this);
       JPanel buttonPanel = new JPanel();
       buttonPanel.add(openButton);
@@ -57,10 +57,11 @@ public class MainFrame extends JFrame implements ActionListener {
    public void actionPerformed(ActionEvent e) {
       if(e.getSource() == openButton) {
          int returnVal = chooser.showOpenDialog(MainFrame.this);
-         if(returnVal == JFileChooser.APPROVE_OPTION)
+         if(returnVal == JFileChooser.APPROVE_OPTION) {
             file = chooser.getSelectedFile();
-		JPanel panel = new FFT(file);
-		add(panel);
+			ImageWav img = new ImageWav(file);
+			img.writeToWav(new File("./picture.wav"));
+		 }
       }
    }
 }

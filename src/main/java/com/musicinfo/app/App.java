@@ -17,15 +17,16 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import java.io.File;
+
 public class App
 {
 	public static void main(String[] a) throws IOException {
 		JFrame frame = new MainFrame();
-
-		frame.setTitle("Choose a File");
+		frame.setTitle("Loud Pictures");
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
+		frame.setSize(200, 100);
 		frame.setVisible(true);
 	}
 }

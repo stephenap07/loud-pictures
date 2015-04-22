@@ -1,4 +1,4 @@
-package com.musicinfo.GUI;
+package com.musicinfo.util;
 
 import java.awt.*; 
 import java.awt.image.*; 
@@ -16,17 +16,20 @@ import javax.sound.sampled.AudioInputStream;
 
 import com.musicinfo.util.*;
 
-public class FFT extends JPanel
+public class ImageWav
 {
 	private BufferedImage img;
 	private BufferedImage newImage;
 
-	int bitsSample;
-
-	File file;
+	private int bitsSample;
+	private File imageFile;
 
 	private static final double TAU = Math.PI * 2;
 	private static final int MAX_COLOR = 0xFF;
+
+	public ImageWav(File aImageFile) {
+		imageFile = aImageFile;
+	}
 
 	private static double getPower(int rgb, double maxPower) {
 		double step = Math.log1p(maxPower) / 4;
@@ -79,20 +82,13 @@ public class FFT extends JPanel
 		AudioSystem.write(stream, AudioFileFormat.Type.WAVE, f);
 	}
 
-	public void init() throws IOException {
-		img = ImageIO.read(file);
-		int sampleRate = 441000;
-		writeWav2(new File("picture.wav"), sampleRate, 100);
+	public void writeToWav(File file) {
+		try {
+			img = ImageIO.read(imageFile);
+			int sampleRate = 16000;
+			writeWav2(file, sampleRate, 100);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
-
-	public void stop() {} 
-
-	public void paint(Graphics g) {
-		g.drawString("FFT Image", 10, 20);
-		g.drawImage(img, 10, 30 , null);
-	}
-
-	public FFT(File imageFile) {
-		file = imageFile;
-    }
 }

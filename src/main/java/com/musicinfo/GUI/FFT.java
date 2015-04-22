@@ -37,7 +37,6 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-
 public class FFT extends JPanel
 {
 	private BufferedImage img;
@@ -125,29 +124,33 @@ public class FFT extends JPanel
 		double[] sampleBuffer = new double[height * 2 * width];
 
 		// Loop through the columns
-		for (int x = 0; x < width; ++x) {
-			double[] fft = new double[height * 2];
+		for (int column = 0; column < width; ++column) {
+			double[] spectrogramWindow = new double[height * 2];
+
 			// Insert column of pixels of the flipped image and the regular image
-			for (int y = 0; y < height; ++y) {
-				fft[y] = (double)pixelFlippedImg[y * width];
-			}
-			for (int y = 0; y < height; ++y) {
-				fft[y + height] = (double)pixelImg[y * width];
+			// image = [flipud(image) ; image]
+			for (int row = 0; row < height; ++row) {
+				Color color = new Color(img.getRGB(column, row));
+				Color flippedColor = new Color(flippedImage.getRGB(column, row));
+
+				spectrogramWindow[row] = (double)(flippedColor.getRed() + flippedColor.getGreen() + flippedColor.getBlue())/(255*3);
+				spectrogramWindow[row + height] = (double)(color.getRed() + color.getGreen() + color.getBlue())/(255*3);
 			}
 
 			DoubleFFT_1D fftDo = new DoubleFFT_1D(img.getHeight());
-			fftDo.realInverse(fft, true);
-			System.arraycopy(fft, 0, sampleBuffer, x * fft.length, fft.length);
+			fftDo.realInverseFull(spectrogramWindow, false);
+			System.arraycopy(spectrogramWindow, 0, sampleBuffer, column * spectrogramWindow.length, spectrogramWindow.length);
 		}
 
-		byte[] byteBuffer = new byte[sampleBuffer.length * 8];
-		for (int i = 0, j = 0; i < byteBuffer.length; i += 8, ++j) {
+		// PROBLEM::::
+		byte[] byteBuffer = new byte[sampleBuffer.length];
+		for (int i = 0, j = 0; i < byteBuffer.length; ++i, ++j) {
 			byte[] bytes = new byte[8];
 			ByteBuffer.wrap(bytes).putDouble(sampleBuffer[j]);
-			System.arraycopy(bytes, 0, byteBuffer, i, bytes.length);
+			byteBuffer[i] = bytes[7];
 		}
 
-		final boolean bigEndian = true;
+		final boolean bigEndian = false;
 		final boolean signed = true;
 		final int bits = 16;
 		final int channels = 1;
@@ -160,6 +163,7 @@ public class FFT extends JPanel
 		audioInputStream = new AudioInputStream(bais, format, sampleBuffer.length);
 		AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, new FileOutputStream("picture.wav"));
 		audioInputStream.close();
+		// PROBLEM::::
 	}
 
 	public void init() {

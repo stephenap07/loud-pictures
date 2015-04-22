@@ -1,11 +1,13 @@
 package com.musicinfo.app;
 
-import com.musicinfo.GUI.FFT;
+import com.musicinfo.GUI.MainFrame;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -17,14 +19,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class App
 {
-	public static void main(String[] a) {
-		JPanel panel = new FFT();
-		JFrame frame = new JFrame("Loud Pictures");
-		frame.add(panel);
+	public static void main(String[] a) throws IOException {
+		JFrame frame = new MainFrame();
 
+		frame.setTitle("Choose a File");
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		frame.setVisible(true);
-
 	}
 }
